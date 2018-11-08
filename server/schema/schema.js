@@ -1,6 +1,7 @@
 const graphql = require('graphql');
 const _ = require('lodash');
 
+// mongodb://<dbuser>:<dbpassword>@ds157223.mlab.com:57223/graphql-practice
 const {
   GraphQLObjectType,
   GraphQLString,
