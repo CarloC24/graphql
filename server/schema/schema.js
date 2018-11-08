@@ -6,17 +6,18 @@ const {
   GraphQLString,
   GraphQLSchema,
   GraphQLID,
-  GraphQLInt
+  GraphQLInt,
+  GraphQLList
 } = graphql; //destructurized on the graphql object
 
 let books = [
   {
-    name: 'Name 1',
+    name: 'Book 1',
     genre: 'the genre',
     id: '1'
   },
   {
-    name: 'Name 2',
+    name: 'Book 2',
     genre: 'the genre 2',
     id: '2'
   }
@@ -53,24 +54,26 @@ const AuthorType = new GraphQLObjectType({
     id: { type: GraphQLID },
     name: { type: GraphQLString },
     age: { type: GraphQLInt },
-    authorId: { type: GraphQLID }
+    authorId: { type: GraphQLID },
+    books: {
+      type: new GraphQLList(BookType), //list of book types
+      resolve(parent, args) {
+        console.log(_.filter(books, { id: parent.authorId }));
+        return _.filter(books, { id: parent.authorId });
+      }
+    }
   })
 }); // needed for defining a graph and how it will look.
 
 const RootQuery = new GraphQLObjectType({
   name: 'RootQueryType',
-  fields: {
+  fields: () => ({
     book: {
       type: BookType,
       args: { id: { type: GraphQLID } },
       resolve(parent, args) {
         //args.id
         //code to get data
-        console.log(
-          books.forEach(book => {
-            return book;
-          })
-        );
         return _.find(books, { id: args.id });
       }
     },
@@ -80,8 +83,20 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         return _.find(authors, { id: args.id });
       }
+    },
+    books: {
+      type: new GraphQLList(BookType),
+      resolve(parent, args) {
+        return books;
+      }
+    },
+    authors: {
+      type: new GraphQLList(AuthorType),
+      resolve(parent, args) {
+        return authors;
+      }
     }
-  }
+  })
 });
 
 module.exports = new GraphQLSchema({
