@@ -41,7 +41,6 @@ const BookType = new GraphQLObjectType({
     author: {
       type: AuthorType,
       resolve(parent, args) {
-        console.log(parent);
         return _.find(authors, { authorId: parent.id });
       }
     }
@@ -67,6 +66,11 @@ const RootQuery = new GraphQLObjectType({
       resolve(parent, args) {
         //args.id
         //code to get data
+        console.log(
+          books.forEach(book => {
+            return book;
+          })
+        );
         return _.find(books, { id: args.id });
       }
     },
