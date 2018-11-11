@@ -7,14 +7,14 @@ const mongoose = require('mongoose');
 const server = express();
 
 mongoose.connect(
-  'mongodb://carloc24:Danzakuduro9@ds157223.mlab.com:57223/graphql-practice'
+  'mongodb://carloc24:carloc894@ds157223.mlab.com:57223/graphql-practice',
+  { useNewUrlParser: true }
 );
 
 mongoose.connection.once('open', () => {
   console.log('connected to database');
 });
 
-server.use(cors());
 server.use(
   '/graphql',
   graphqlHTTP({
@@ -24,5 +24,5 @@ server.use(
 ); //put a schema on the graphqlHTTP middleware!!
 
 server.listen(8000, () => {
-  console.log('\n === API on port 9K === \n');
+  console.log('\n === API on port 8K === \n');
 });
