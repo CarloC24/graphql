@@ -14,7 +14,7 @@ mongoose.connect(
 mongoose.connection.once('open', () => {
   console.log('connected to database');
 });
-
+server.use(cors());
 server.use(
   '/graphql',
   graphqlHTTP({
